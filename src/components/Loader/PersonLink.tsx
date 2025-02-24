@@ -1,21 +1,15 @@
 import React from 'react';
 import { Person } from '../../types';
 import classNames from 'classnames';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 type Props = {
   person: Person;
   people: Person[];
-  selectedSlug: string;
-  setSelectedSlug: (slug: string) => void;
 };
 
-export const PersonLink: React.FC<Props> = ({
-  person,
-  people,
-  selectedSlug,
-  setSelectedSlug,
-}) => {
+export const PersonLink: React.FC<Props> = ({ person, people }) => {
+  const { slug } = useParams();
   const findPerson = (name: string | null) => {
     return people.find(pers => pers.name === name) || null;
   };
@@ -27,7 +21,7 @@ export const PersonLink: React.FC<Props> = ({
     <tr
       data-cy="person"
       className={classNames({
-        'has-background-warning': selectedSlug === person.slug,
+        'has-background-warning': slug === person.slug,
       })}
     >
       <td>
@@ -36,7 +30,6 @@ export const PersonLink: React.FC<Props> = ({
           className={classNames({
             'has-text-danger': person.sex === 'f',
           })}
-          onClick={() => setSelectedSlug(person.slug)}
         >
           {person.name}
         </Link>
@@ -47,11 +40,7 @@ export const PersonLink: React.FC<Props> = ({
       <td>{person.died}</td>
       <td>
         {mother ? (
-          <Link
-            to={`/people/${mother.slug}`}
-            className="has-text-danger"
-            onClick={() => setSelectedSlug(mother.slug)}
-          >
+          <Link to={`/people/${mother.slug}`} className="has-text-danger">
             {mother.name}
           </Link>
         ) : (
@@ -60,12 +49,7 @@ export const PersonLink: React.FC<Props> = ({
       </td>
       <td>
         {father ? (
-          <Link
-            to={`/people/${father.slug}`}
-            onClick={() => setSelectedSlug(father.slug)}
-          >
-            {father.name}
-          </Link>
+          <Link to={`/people/${father.slug}`}>{father.name}</Link>
         ) : (
           person.fatherName || '-'
         )}

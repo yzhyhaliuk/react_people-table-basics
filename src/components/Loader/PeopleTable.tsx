@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Person } from '../../types';
 import { PersonLink } from './PersonLink';
 
@@ -7,8 +7,6 @@ type Props = {
 };
 
 export const PeopleTable: React.FC<Props> = ({ people }) => {
-  const [selectedSlug, setSelectedSlug] = useState<string>('');
-
   return (
     <table
       data-cy="peopleTable"
@@ -27,13 +25,7 @@ export const PeopleTable: React.FC<Props> = ({ people }) => {
 
       <tbody>
         {people.map(person => (
-          <PersonLink
-            person={person}
-            people={people}
-            key={person.slug}
-            selectedSlug={selectedSlug}
-            setSelectedSlug={setSelectedSlug}
-          />
+          <PersonLink person={person} people={people} key={person.slug} />
         ))}
       </tbody>
     </table>
